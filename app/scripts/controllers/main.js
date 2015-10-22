@@ -15,6 +15,7 @@ angular.module('knittingApp')
 
     this.stitchesPerRow = 30;
     this.stitch = 7;
+    this.rows = 251;
 
     this.getRow = function () {
       return Math.ceil(this.stitch / (this.stitchesPerRow));
@@ -35,10 +36,7 @@ angular.module('knittingApp')
     // after dom loaded (sneaky sneaky)
     $timeout(function () {
 
-
-      console.log('haha');
-
-        var c = document.getElementById("myCanvas");
+      var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
         var img = document.getElementById("patternImage");
         ctx.drawImage(img, 0, 0);
@@ -49,7 +47,7 @@ angular.module('knittingApp')
         // invert colors
         for (var i = 0; i < imgData.data.length; i += 4) {
 
-          pixelsMaybe.push(imgData.data[i] > 0 ? 1 : 0);
+          pixelsMaybe.push(imgData.data[i] > 0 ? 0 : 1);
 
           imgData.data[i] = 255 - imgData.data[i];
           imgData.data[i + 1] = 255 - imgData.data[i + 1];
@@ -58,19 +56,34 @@ angular.module('knittingApp')
         }
 
 
-      var currentRow = '';
+
+      var currentRow = [];
+      var rows = [];
       for(var i = 0; i < pixelsMaybe.length; i++) {
 
         if(currentRow.length >= ctrl.stitchesPerRow) {
-          console.log(currentRow);
-          currentRow = '';
+          rows.push(currentRow);
+          currentRow = [];
         }
-        currentRow += pixelsMaybe[i];
-
+        currentRow.push(pixelsMaybe[i]);
       }
 
+      ctrl.patternRows = rows;
 
+      logRows(rows);
 
-    }, 300);
+      }, 300);
 
   });
+
+
+function logRows(rows) {
+  //print to be sure
+  for(var i = 0; i < rows.length; i++) {
+    var row = '';
+    for(var j = 0; j < rows[i].length; j++) {
+      row+= rows[i][j];
+    }
+    console.log(row);
+  }
+}

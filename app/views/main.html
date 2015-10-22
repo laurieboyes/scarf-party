@@ -1,9 +1,26 @@
 
-<div class="pattern">
-  <canvas id="myCanvas" width="30" height="250" style="border:1px solid #d3d3d3;">
-    Your browser does not support the HTML5 canvas tag.
-  </canvas>
+<div class="pattern" style="width:90px; height:753px; position: relative">
+  <div class="pattern__row" ng-repeat="row in ctrl.patternRows" style="position:absolute; width:100%;"
+    ng-style="{
+      height: (100 / ctrl.rows) + '%',
+      top: ((100 / ctrl.rows) * $index) + '%'
+    }">
+
+    <div class="pattern__row__stitch"
+         ng-repeat="stitch in row track by $index"
+        style="height: 100%; position: absolute; top: 0;"
+         ng-style="{
+          width: (100 / ctrl.stitchesPerRow) + '%',
+          left: ((100 / ctrl.stitchesPerRow) * $index) + '%',
+          background: (stitch ? '#B20000' : '#CECECE')
+         }"
+      >
+
+    </div>
+
+  </div>
 </div>
+
 <div class="controls">
   <div class="control stitch">
     <label>stitch</label>
@@ -20,4 +37,7 @@
 </div>
 
 <!--<img id="patternImage" src="http://lrnk.co.uk/testzigzag8.png" alt="scarf" width="30" height="250">-->
-<img id="patternImage" src="images/testzigzag8.png" alt="scarf" width="30" height="250">
+<img id="patternImage" src="images/testzigzag8.png" alt="scarf" width="30" height="251">
+<canvas id="myCanvas" width="30" height="251" style="border:1px solid #d3d3d3;">
+  Your browser does not support the HTML5 canvas tag.
+</canvas>
