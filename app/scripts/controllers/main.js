@@ -34,17 +34,34 @@ angular.module('knittingApp')
       return this.stitch--;
     };
 
+    function isRightSide() {
+      return Math.floor(ctrl.stitch / ctrl.stitchesPerRow) % 2 === 1;
+    }
+
+    this.getStitchColour = function(stitchValue, rowI, rowStitchI) {
+
+      if(((((rowI + 1) * ctrl.stitchesPerRow)) + rowStitchI) < ctrl.totalStitches - ctrl.stitch) {
+        //stitch not done yet
+        var onColour = isRightSide() ? '#CECECE' : '#B20000';
+        var offColour = isRightSide() ? '#B20000' : '#CECECE';
+
+        return stitchValue ? onColour : offColour;
+
+      } else {
+        // stitch done
+        return 'green';
+
+      }
+
+    };
+
+
     // after dom loaded (sneaky sneaky)
     $timeout(function () {
 
       var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
         var img = document.getElementById("patternImage");
-
-      ctx.mozImageSmoothingEnabled = false;
-      ctx.webkitImageSmoothingEnabled = false;
-      ctx.msImageSmoothingEnabled = false;
-      ctx.imageSmoothingEnabled = false;
 
         ctx.drawImage(img, 0, 0);
         var imgData = ctx.getImageData(0, 0, c.width, c.height);
@@ -72,7 +89,7 @@ angular.module('knittingApp')
 
       ctrl.patternRows = rows;
 
-      logRows(rows);
+      //logRows(rows);
 
       }, 300);
 
