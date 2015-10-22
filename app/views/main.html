@@ -12,7 +12,9 @@
          ng-style="{
           width: (100 / ctrl.stitchesPerRow) + '%',
           left: ((100 / ctrl.stitchesPerRow) * $index) + '%',
-          background: (stitch ? '#B20000' : '#CECECE')
+          background: ((($parent.$index + 1) * ctrl.stitchesPerRow) + $index < (ctrl.totalStitches - ctrl.stitch)) ?
+          (stitch ? '#B20000' : '#CECECE')
+          : 'green'
          }"
       >
 

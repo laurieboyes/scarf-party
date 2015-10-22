@@ -16,6 +16,7 @@ angular.module('knittingApp')
     this.stitchesPerRow = 30;
     this.stitch = 7;
     this.rows = 251;
+    this.totalStitches = this.stitchesPerRow * this.rows;
 
     this.getRow = function () {
       return Math.ceil(this.stitch / (this.stitchesPerRow));
@@ -39,6 +40,12 @@ angular.module('knittingApp')
       var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
         var img = document.getElementById("patternImage");
+
+      ctx.mozImageSmoothingEnabled = false;
+      ctx.webkitImageSmoothingEnabled = false;
+      ctx.msImageSmoothingEnabled = false;
+      ctx.imageSmoothingEnabled = false;
+
         ctx.drawImage(img, 0, 0);
         var imgData = ctx.getImageData(0, 0, c.width, c.height);
 
@@ -47,12 +54,7 @@ angular.module('knittingApp')
         // invert colors
         for (var i = 0; i < imgData.data.length; i += 4) {
 
-          pixelsMaybe.push(imgData.data[i] > 0 ? 0 : 1);
-
-          imgData.data[i] = 255 - imgData.data[i];
-          imgData.data[i + 1] = 255 - imgData.data[i + 1];
-          imgData.data[i + 2] = 255 - imgData.data[i + 2];
-          imgData.data[i + 3] = 255;
+          pixelsMaybe.push(imgData.data[i] > 127 ? 0 : 1);
         }
 
 
