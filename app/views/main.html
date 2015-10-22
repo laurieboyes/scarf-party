@@ -1,0 +1,19 @@
+
+<div class="pattern">
+  <canvas></canvas>
+</div>
+<div class="controls">
+  <div class="control stitch">
+    <label>stitch</label>
+    <input type="text" ng-model="ctrl.stitch"/>
+  </div>
+  <p>row: {{ctrl.getRow()}}</p>
+  <p>row-stitch: {{ctrl.getRowStitch()}}</p>
+  <div class="control do-stitch">
+    <input type="button" value="stitch" ng-click="ctrl.nextStitch()"/>
+  </div>
+  <div class="control undo-stitch">
+    <input type="button" value="stitch" ng-click="ctrl.prevStitch()"/>
+  </div>
+</div>
+
