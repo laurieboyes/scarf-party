@@ -30,7 +30,8 @@
   </div>
   <p>row: <b>{{ctrl.getRow()}}</b>     row-stitch: <b>{{ctrl.getRowStitch()}}</b></p>
   <div class="control do-stitch">
-    <input type="button" value="Stitch" style="width:100%; height: 60px; font-weight: bold" ng-click="ctrl.nextStitch()"/>
+    <input type="button" value="Stitch" style="float: left; width:48%; height: 60px; font-weight: bold" ng-click="ctrl.nextStitch()"/>
+    <input type="button" value="St 6" style="float: left; width:48%; height: 60px; font-weight: bold" ng-click="ctrl.nextStitch(6)"/>
   </div>
   <div class="control undo-stitch">
     <input type="button" value="Unpick" ng-click="ctrl.prevStitch()" style="margin-top: 10px; height: 60px; width: 130px; "/>
