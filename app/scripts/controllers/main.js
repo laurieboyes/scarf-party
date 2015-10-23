@@ -42,6 +42,17 @@ angular.module('knittingApp')
       return this.stitch--;
     };
 
+    this.getScreenHeight = function() {
+
+      console.log('dsfsdf', window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight);
+
+      return window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+    };
+
     function isRightSide() {
       return Math.floor(ctrl.stitch / ctrl.stitchesPerRow) % 2 === 0;
     }
