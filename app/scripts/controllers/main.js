@@ -35,7 +35,7 @@ angular.module('knittingApp')
     };
 
     this.nextStitch = function (increase) {
-      return this.stitch = this.stitch + (increase ? increase : 1);
+      return this.stitch = +this.stitch + (increase ? increase : 1);
     };
 
     this.prevStitch = function () {
