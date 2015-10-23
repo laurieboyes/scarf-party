@@ -26,6 +26,14 @@ angular.module('knittingApp')
       return this.stitch % this.stitchesPerRow;
     };
 
+    this.getRowFlippedOrWhatever = function (rowI) {
+      if(isRightSide()) {
+        return ctrl.patternRows[rowI];
+      } else {
+        return ctrl.patternRowsReversed[rowI];
+      }
+    };
+
     this.nextStitch = function () {
       return this.stitch++;
     };
@@ -35,15 +43,15 @@ angular.module('knittingApp')
     };
 
     function isRightSide() {
-      return Math.floor(ctrl.stitch / ctrl.stitchesPerRow) % 2 === 1;
+      return Math.floor(ctrl.stitch / ctrl.stitchesPerRow) % 2 === 0;
     }
 
     this.getStitchColour = function(stitchValue, rowI, rowStitchI) {
 
       if(((((rowI + 1) * ctrl.stitchesPerRow)) + rowStitchI) < ctrl.totalStitches - ctrl.stitch) {
         //stitch not done yet
-        var onColour = isRightSide() ? '#CECECE' : '#B20000';
-        var offColour = isRightSide() ? '#B20000' : '#CECECE';
+        var onColour = isRightSide() ? '#B20000' : '#CECECE';
+        var offColour = isRightSide() ? '#CECECE' : '#B20000';
 
         return stitchValue ? onColour : offColour;
 
@@ -78,16 +86,23 @@ angular.module('knittingApp')
 
       var currentRow = [];
       var rows = [];
+      var rowsReversed = [];
       for(var i = 0; i < pixelsMaybe.length; i++) {
 
         if(currentRow.length >= ctrl.stitchesPerRow) {
           rows.push(currentRow);
+
+          var rowReversed = currentRow.slice();
+          rowReversed.reverse();
+          rowsReversed.push(rowReversed);
+
           currentRow = [];
         }
         currentRow.push(pixelsMaybe[i]);
       }
 
       ctrl.patternRows = rows;
+      ctrl.patternRowsReversed = rowsReversed;
 
       //logRows(rows);
 

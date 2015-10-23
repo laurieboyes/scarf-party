@@ -7,7 +7,7 @@
     }">
 
     <div class="pattern__row__stitch"
-         ng-repeat="stitch in row track by $index"
+         ng-repeat="stitch in ctrl.getRowFlippedOrWhatever($index) track by $index"
         style="height: 100%; position: absolute; top: 0;"
          ng-style="{
           width: (100 / ctrl.stitchesPerRow) + '%',
