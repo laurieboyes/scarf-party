@@ -1,0 +1,23 @@
+<div class="pattern-container" style="width: 100%; overflow: auto; margin-bottom: 20px" ng-style="{height: (ctrl.getScreenHeight() / 2) + 'px'}">
+  <div class="pattern" style="width:100%; position: relative; padding-bottom: 836.66%">
+    <div class="pattern__row" ng-repeat="row in ctrl.patternRows" style="position:absolute; width:100%;"
+         ng-style="{
+        height: (100 / ctrl.rows) + '%',
+        top: ((100 / ctrl.rows) * $index) + '%'
+      }">
+
+      <div class="pattern__row__stitch"
+           ng-repeat="stitch in ctrl.getRowFlippedOrWhatever($index) track by $index"
+           style="height: 100%; position: absolute; top: 0;"
+           ng-style="{
+            width: (100 / ctrl.stitchesPerRow) + '%',
+            left: ((100 / ctrl.stitchesPerRow) * $index) + '%',
+            background: ctrl.getStitchColour(stitch, $parent.$index, $index)
+           }"
+        >
+
+      </div>
+
+    </div>
+  </div>
+</div>

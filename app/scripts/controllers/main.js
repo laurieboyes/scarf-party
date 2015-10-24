@@ -8,6 +8,15 @@
  * Controller of the knittingApp
  */
 angular.module('knittingApp')
+
+  .directive('patternDivs', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'views/pattern-divs.html',
+      scope: false
+    }
+  })
+
   .controller('MainCtrl', function ($scope, $timeout) {
 
     var ctrl = this;
