@@ -17,11 +17,55 @@ angular.module('knittingApp')
     }
   })
 
-  .directive('patternCanvas', function() {
+  .directive('patternCanvas', function($timeout) {
     return {
       restrict: 'E',
       templateUrl: 'views/pattern-canvas.html',
-      scope: false
+      scope: false,
+      link: function(scope, element) {
+        var patternContainer = element.find('div')[0];
+        var pattern = element.find('canvas');
+        var ctx = pattern[0].getContext("2d");
+
+
+        var canvasWidth = patternContainer.offsetWidth - 20;
+        var canvasHeight = (scope.ctrl.imageHeight / scope.ctrl.imageWidth) * canvasWidth;
+
+        var stitchWidth = canvasWidth / scope.ctrl.stitchesPerRow;
+        var stitchHeight = canvasHeight / scope.ctrl.rows;
+
+        pattern.attr('width', canvasWidth);
+        pattern.attr('height', canvasHeight);
+
+
+        function drawStitches() {
+          for(var i = 0; i < scope.ctrl.patternRows.length; i++) {
+            for(var j = 0; j < scope.ctrl.getRowFlippedOrWhatever(i).length; j++) {
+
+              var stitch = scope.ctrl.getRowFlippedOrWhatever(i)[j];
+
+              var left = j * stitchWidth;
+              var top = i * stitchHeight;
+              var width = stitchWidth;
+              var height = stitchHeight;
+
+              ctx.fillStyle= scope.ctrl.getStitchColour(stitch, i, j);
+              ctx.fillRect(left, top, width, height);
+
+            }
+          }
+        }
+
+        scope.$watch('ctrl.stitch', function(val) {
+          if(typeof val === 'number' && scope.ctrl.patternRows && scope.ctrl.patternRows.length) {
+            drawStitches();
+          }
+        });
+
+        scope.$on('image-ready', function() {
+          drawStitches();
+        })
+    }
     }
   })
 
@@ -67,11 +111,6 @@ angular.module('knittingApp')
     };
 
     this.getScreenHeight = function() {
-
-      console.log('dsfsdf', window.innerHeight
-        || document.documentElement.clientHeight
-        || document.body.clientHeight);
-
       return window.innerHeight
         || document.documentElement.clientHeight
         || document.body.clientHeight;
@@ -138,6 +177,8 @@ angular.module('knittingApp')
 
       ctrl.patternRows = rows;
       ctrl.patternRowsReversed = rowsReversed;
+
+      $scope.$broadcast('image-ready');
 
       //logRows(rows);
 
