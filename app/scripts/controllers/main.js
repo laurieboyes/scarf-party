@@ -17,6 +17,14 @@ angular.module('knittingApp')
     }
   })
 
+  .directive('patternCanvas', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'views/pattern-canvas.html',
+      scope: false
+    }
+  })
+
   .controller('MainCtrl', function ($scope, $timeout) {
 
     var ctrl = this;
@@ -26,6 +34,9 @@ angular.module('knittingApp')
     this.stitch = 7;
     this.rows = 251;
     this.totalStitches = this.stitchesPerRow * this.rows;
+
+    this.imageWidth = 30;
+    this.imageHeight = 251;
 
     this.getRow = function () {
       return Math.ceil(this.stitch / (this.stitchesPerRow));
@@ -41,6 +52,10 @@ angular.module('knittingApp')
       } else {
         return ctrl.patternRowsReversed[rowI];
       }
+    };
+
+    this.getImagePaddingBottom = function() {
+      return ((this.imageHeight / this.imageWidth) * 100) + '%';
     };
 
     this.nextStitch = function (increase) {
