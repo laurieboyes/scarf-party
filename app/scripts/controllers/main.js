@@ -111,7 +111,7 @@ angular.module('knittingApp')
           drawStitches();
           setPatternScroll();
         };
-        img.src = 'images/testzigzag8.png';
+        img.src = 'images/fullscarf1.png';
 
 
     }
@@ -125,11 +125,11 @@ angular.module('knittingApp')
 
     this.stitchesPerRow = 30;
     this.stitch = +$cookies.get('stitch') || 0;
-    this.rows = 251;
+    this.rows = 300;
     this.totalStitches = this.stitchesPerRow * this.rows;
 
     this.imageWidth = 30;
-    this.imageHeight = 251;
+    this.imageHeight = 300;
 
     this.getRow = function () {
       return Math.ceil(this.stitch / (this.stitchesPerRow));
