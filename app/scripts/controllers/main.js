@@ -27,7 +27,6 @@ angular.module('knittingApp')
         var pattern = element.find('canvas');
         var ctx = pattern[0].getContext("2d");
 
-
         var canvasWidth = patternContainer.offsetWidth - 20;
         var canvasHeight = (scope.ctrl.imageHeight / scope.ctrl.imageWidth) * canvasWidth;
 
@@ -37,8 +36,12 @@ angular.module('knittingApp')
         pattern.attr('width', canvasWidth);
         pattern.attr('height', canvasHeight);
 
+        function setPatternScroll() {
+          patternContainer.scrollTop = (canvasHeight - (stitchHeight * scope.ctrl.getRow())) - (stitchHeight * 6);
+        }
 
         function drawStitches() {
+
           for(var i = 0; i < scope.ctrl.patternRows.length; i++) {
             for(var j = 0; j < scope.ctrl.getRowFlippedOrWhatever(i).length; j++) {
 
@@ -59,12 +62,16 @@ angular.module('knittingApp')
         scope.$watch('ctrl.stitch', function(val) {
           if(typeof val === 'number' && scope.ctrl.patternRows && scope.ctrl.patternRows.length) {
             drawStitches();
+            setPatternScroll();
           }
         });
 
         scope.$on('image-ready', function() {
           drawStitches();
-        })
+          setPatternScroll();
+        });
+
+
     }
     }
   })
@@ -75,7 +82,7 @@ angular.module('knittingApp')
     $scope.ctrl = ctrl;
 
     this.stitchesPerRow = 30;
-    this.stitch = 7;
+    this.stitch = 540;
     this.rows = 251;
     this.totalStitches = this.stitchesPerRow * this.rows;
 
