@@ -118,13 +118,13 @@ angular.module('knittingApp')
     }
   })
 
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, $cookies) {
 
     var ctrl = this;
     $scope.ctrl = ctrl;
 
     this.stitchesPerRow = 30;
-    this.stitch = 540;
+    this.stitch = +$cookies.get('stitch') || 0;
     this.rows = 251;
     this.totalStitches = this.stitchesPerRow * this.rows;
 
@@ -185,5 +185,11 @@ angular.module('knittingApp')
       }
 
     };
+
+    $scope.$watch('ctrl.stitch', function(val) {
+      if(typeof val === 'number') {
+        $cookies.put('stitch', val)
+      }
+    });
   });
 
