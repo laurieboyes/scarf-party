@@ -67,17 +67,58 @@ angular.module('knittingApp')
           }
         });
 
-        scope.$on('image-ready', function() {
+        function loadImageAndStuff(img) {
+
+          var c = document.getElementById("tempCanvas");
+          var ctx = c.getContext("2d");
+
+          ctx.drawImage(img, 0, 0);
+          var imgData = ctx.getImageData(0, 0, c.width, c.height);
+
+          var pixelsMaybe = [];
+
+          // invert colors
+          for (var i = 0; i < imgData.data.length; i += 4) {
+
+            pixelsMaybe.push(imgData.data[i] > 127 ? 0 : 1);
+          }
+
+          var currentRow = [];
+          var rows = [];
+          var rowsReversed = [];
+          for(var i = 0; i < pixelsMaybe.length; i++) {
+
+            if(currentRow.length >= scope.ctrl.stitchesPerRow) {
+              rows.push(currentRow);
+
+              var rowReversed = currentRow.slice();
+              rowReversed.reverse();
+              rowsReversed.push(rowReversed);
+
+              currentRow = [];
+            }
+            currentRow.push(pixelsMaybe[i]);
+          }
+
+          scope.ctrl.patternRows = rows;
+          scope.ctrl.patternRowsReversed = rowsReversed;
+
+        }
+
+        var img = new Image();
+        img.onload = function() {
+          loadImageAndStuff(img);
           drawStitches();
           setPatternScroll();
-        });
+        };
+        img.src = 'images/testzigzag8.png';
 
 
     }
     }
   })
 
-  .controller('MainCtrl', function ($scope, $timeout) {
+  .controller('MainCtrl', function ($scope) {
 
     var ctrl = this;
     $scope.ctrl = ctrl;
@@ -144,64 +185,5 @@ angular.module('knittingApp')
       }
 
     };
-
-
-    // after dom loaded (sneaky sneaky)
-    $timeout(function () {
-
-      var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-        var img = document.getElementById("patternImage");
-
-        ctx.drawImage(img, 0, 0);
-        var imgData = ctx.getImageData(0, 0, c.width, c.height);
-
-      var pixelsMaybe = [];
-
-        // invert colors
-        for (var i = 0; i < imgData.data.length; i += 4) {
-
-          pixelsMaybe.push(imgData.data[i] > 127 ? 0 : 1);
-        }
-
-
-
-      var currentRow = [];
-      var rows = [];
-      var rowsReversed = [];
-      for(var i = 0; i < pixelsMaybe.length; i++) {
-
-        if(currentRow.length >= ctrl.stitchesPerRow) {
-          rows.push(currentRow);
-
-          var rowReversed = currentRow.slice();
-          rowReversed.reverse();
-          rowsReversed.push(rowReversed);
-
-          currentRow = [];
-        }
-        currentRow.push(pixelsMaybe[i]);
-      }
-
-      ctrl.patternRows = rows;
-      ctrl.patternRowsReversed = rowsReversed;
-
-      $scope.$broadcast('image-ready');
-
-      //logRows(rows);
-
-      }, 300);
-
   });
 
-
-function logRows(rows) {
-  //print to be sure
-  for(var i = 0; i < rows.length; i++) {
-    var row = '';
-    for(var j = 0; j < rows[i].length; j++) {
-      row+= rows[i][j];
-    }
-    console.log(row);
-  }
-}
