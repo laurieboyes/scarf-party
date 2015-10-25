@@ -45,12 +45,13 @@ angular.module('knittingApp')
           for(var i = 0; i < scope.ctrl.patternRows.length; i++) {
             for(var j = 0; j < scope.ctrl.getRowFlippedOrWhatever(i).length; j++) {
 
+              var margin = 1;
               var stitch = scope.ctrl.getRowFlippedOrWhatever(i)[j];
 
-              var left = j * stitchWidth;
-              var top = i * stitchHeight;
-              var width = stitchWidth;
-              var height = stitchHeight;
+              var left = j * stitchWidth + margin;
+              var top = i * stitchHeight + margin;
+              var width = stitchWidth - (margin * 2);
+              var height = stitchHeight - (margin * 2);
 
               ctx.fillStyle= scope.ctrl.getStitchColour(stitch, i, j);
               ctx.fillRect(left, top, width, height);
