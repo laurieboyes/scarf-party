@@ -10,7 +10,7 @@
  */
 angular
   .module('knittingApp', [
-    'ngCookies',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'LocalStorageModule'
   ]);
