@@ -111,7 +111,7 @@ angular.module('knittingApp')
           drawStitches();
           setPatternScroll();
         };
-        img.src = 'images/fullscarf1.png';
+        img.src = 'images/spacedproper.png';
 
 
     }
