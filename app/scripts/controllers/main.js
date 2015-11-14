@@ -17,7 +17,7 @@ angular.module('knittingApp')
     this.imageHeight = 300;
 
     this.getRow = function () {
-      return Math.ceil(this.stitch / (this.stitchesPerRow));
+      return Math.ceil(this.stitch / (this.stitchesPerRow)) + (!this.getRowStitch() ? 1 : 0);
     };
 
     this.getRowStitch = function () {
