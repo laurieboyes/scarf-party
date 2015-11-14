@@ -61,13 +61,13 @@ angular.module('knittingApp')
         var onColour = isRightSide() ? '#B20000' : '#CECECE';
         var offColour = isRightSide() ? '#CECECE' : '#B20000';
 
-        return stitchValue ? onColour : offColour;
-
       } else {
         // stitch done
-        return 'green';
-
+        var onColour = isRightSide() ? '#1a0000' : '#404040';
+        var offColour = isRightSide() ? '#404040' : '#1a0000';
       }
+
+      return stitchValue ? onColour : offColour;
 
     };
 

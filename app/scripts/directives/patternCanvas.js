@@ -28,6 +28,9 @@ angular.module('knittingApp')
 
         function drawStitches() {
 
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
           for(var i = 0; i < scope.ctrl.patternRows.length; i++) {
             for(var j = 0; j < scope.ctrl.getRowFlippedOrWhatever(i).length; j++) {
 
