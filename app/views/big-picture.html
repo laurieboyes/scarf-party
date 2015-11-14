@@ -1,3 +1,5 @@
 <div class="big-picture">
-  <img ng-src="{{ctrl.patternImageSrc}}" />
+  <div class="big-picture__inner" ng-style="{'padding-bottom': ((ctrl.imageHeight / ctrl.imageWidth * 100) / 1.26) + '%'}">
+    <img class="big-picture__image" ng-src="{{ctrl.patternImageSrc}}" />
+  </div>
 </div>
