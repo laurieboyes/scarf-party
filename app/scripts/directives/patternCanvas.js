@@ -1,27 +1,58 @@
 'use strict';
 
 angular.module('knittingApp')
-  .directive('patternCanvas', function() {
+  .directive('patternCanvas', function ($timeout) {
     return {
       restrict: 'E',
       templateUrl: 'views/pattern-canvas.html',
       replace: true,
       scope: false,
-      link: function(scope, element) {
-        var patternContainer = element[0];
-        var pattern = element.find('canvas');
-        var ctx = pattern[0].getContext("2d");
+      link: function (scope, element) {
 
-        var canvasWidth = patternContainer.offsetWidth - 20;
-        var canvasHeight = (scope.ctrl.imageHeight / scope.ctrl.imageWidth) * canvasWidth;
-        scope.ctrl.canvasHeight = canvasHeight;
+        var patternContainer;
+        var pattern;
+        var ctx;
+        var canvasWidth;
+        var canvasHeight;
+        var stitchWidth;
+        var stitchHeight;
 
-        var stitchWidth = canvasWidth / scope.ctrl.stitchesPerRow;
-        var stitchHeight = canvasHeight / scope.ctrl.rows;
+        var img;
 
-        pattern.attr('width', canvasWidth);
-        pattern.attr('height', canvasHeight);
+        $timeout(function () {
 
+
+          patternContainer = element[0];
+          pattern = element.find('canvas');
+          ctx = pattern[0].getContext("2d");
+
+          canvasWidth = patternContainer.offsetWidth - 20;
+          canvasHeight = (scope.ctrl.imageHeight / scope.ctrl.imageWidth) * canvasWidth;
+          scope.ctrl.canvasHeight = canvasHeight;
+
+          stitchWidth = canvasWidth / scope.ctrl.stitchesPerRow;
+          stitchHeight = canvasHeight / scope.ctrl.rows;
+
+          pattern.attr('width', canvasWidth);
+          pattern.attr('height', canvasHeight);
+
+          scope.$watch('ctrl.stitch', function (val) {
+            if (typeof val === 'number' && scope.ctrl.patternRows && scope.ctrl.patternRows.length) {
+              drawStitches();
+              setPatternScroll();
+            }
+          });
+
+          img = new Image();
+          img.onload = function () {
+            loadImageAndStuff(img);
+            drawStitches();
+            setPatternScroll();
+          };
+          img.src = scope.ctrl.patternImageSrc;
+
+        }, 500);
+        
         function setPatternScroll() {
           patternContainer.scrollTop = (canvasHeight - (stitchHeight * scope.ctrl.getRow())) - (stitchHeight * 6);
         }
@@ -31,8 +62,8 @@ angular.module('knittingApp')
           ctx.fillStyle = "white";
           ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-          for(var i = 0; i < scope.ctrl.patternRows.length; i++) {
-            for(var j = 0; j < scope.ctrl.getRowFlippedOrWhatever(i).length; j++) {
+          for (var i = 0; i < scope.ctrl.patternRows.length; i++) {
+            for (var j = 0; j < scope.ctrl.getRowFlippedOrWhatever(i).length; j++) {
 
               var margin = scope.ctrl.isStitchDoneYet(i, j) ? 0 : 1;
               var stitch = scope.ctrl.getRowFlippedOrWhatever(i)[j];
@@ -42,19 +73,12 @@ angular.module('knittingApp')
               var width = stitchWidth - (margin * 2);
               var height = stitchHeight - (margin * 2);
 
-              ctx.fillStyle= scope.ctrl.getStitchColour(stitch, i, j);
+              ctx.fillStyle = scope.ctrl.getStitchColour(stitch, i, j);
               ctx.fillRect(left, top, width, height);
 
             }
           }
         }
-
-        scope.$watch('ctrl.stitch', function(val) {
-          if(typeof val === 'number' && scope.ctrl.patternRows && scope.ctrl.patternRows.length) {
-            drawStitches();
-            setPatternScroll();
-          }
-        });
 
         function loadImageAndStuff(img) {
 
@@ -75,9 +99,9 @@ angular.module('knittingApp')
           var currentRow = [];
           var rows = [];
           var rowsReversed = [];
-          for(var i = 0; i < pixelsMaybe.length; i++) {
+          for (var i = 0; i < pixelsMaybe.length; i++) {
 
-            if(currentRow.length >= scope.ctrl.stitchesPerRow) {
+            if (currentRow.length >= scope.ctrl.stitchesPerRow) {
               rows.push(currentRow);
 
               var rowReversed = currentRow.slice();
@@ -93,14 +117,6 @@ angular.module('knittingApp')
           scope.ctrl.patternRowsReversed = rowsReversed;
 
         }
-
-        var img = new Image();
-        img.onload = function() {
-          loadImageAndStuff(img);
-          drawStitches();
-          setPatternScroll();
-        };
-        img.src = scope.ctrl.patternImageSrc;
       }
     }
   });
