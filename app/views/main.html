@@ -4,7 +4,7 @@
 
 <div class="controls">
   <div class="control stitch">
-    <label>stitch</label>
+    <label><b>{{ctrl.isRightSide()? 'RS' : 'WS'}}</b> stitch</label>
     <input type="number" ng-model="ctrl.stitch"/>
   </div>
   <p>row: <b>{{ctrl.getRow()}}</b>     row-stitch: <b>{{ctrl.getRowStitch()}}</b></p>
