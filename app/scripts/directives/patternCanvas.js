@@ -14,6 +14,7 @@ angular.module('knittingApp')
 
         var canvasWidth = patternContainer.offsetWidth - 20;
         var canvasHeight = (scope.ctrl.imageHeight / scope.ctrl.imageWidth) * canvasWidth;
+        scope.ctrl.canvasHeight = canvasHeight;
 
         var stitchWidth = canvasWidth / scope.ctrl.stitchesPerRow;
         var stitchHeight = canvasHeight / scope.ctrl.rows;
