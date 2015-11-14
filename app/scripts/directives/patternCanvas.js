@@ -34,7 +34,7 @@ angular.module('knittingApp')
           for(var i = 0; i < scope.ctrl.patternRows.length; i++) {
             for(var j = 0; j < scope.ctrl.getRowFlippedOrWhatever(i).length; j++) {
 
-              var margin = 1;
+              var margin = scope.ctrl.isStitchDoneYet(i, j) ? 0 : 1;
               var stitch = scope.ctrl.getRowFlippedOrWhatever(i)[j];
 
               var left = j * stitchWidth + margin;

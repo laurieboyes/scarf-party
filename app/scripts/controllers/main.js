@@ -54,9 +54,13 @@ angular.module('knittingApp')
       return Math.floor(ctrl.stitch / ctrl.stitchesPerRow) % 2 === 0;
     }
 
+    this.isStitchDoneYet = function(rowI, rowStitchI) {
+        return !(((((rowI + 1) * ctrl.stitchesPerRow)) + rowStitchI) < ctrl.totalStitches - ctrl.stitch);
+    };
+
     this.getStitchColour = function(stitchValue, rowI, rowStitchI) {
 
-      if(((((rowI + 1) * ctrl.stitchesPerRow)) + rowStitchI) < ctrl.totalStitches - ctrl.stitch) {
+      if(!this.isStitchDoneYet(rowI, rowStitchI)) {
         //stitch not done yet
         var onColour = isRightSide() ? '#B20000' : '#CECECE';
         var offColour = isRightSide() ? '#CECECE' : '#B20000';
