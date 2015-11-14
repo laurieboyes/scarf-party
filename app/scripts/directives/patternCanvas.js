@@ -5,9 +5,10 @@ angular.module('knittingApp')
     return {
       restrict: 'E',
       templateUrl: 'views/pattern-canvas.html',
+      replace: true,
       scope: false,
       link: function(scope, element) {
-        var patternContainer = element.find('div')[0];
+        var patternContainer = element[0];
         var pattern = element.find('canvas');
         var ctx = pattern[0].getContext("2d");
 
