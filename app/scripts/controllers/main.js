@@ -6,7 +6,7 @@ angular.module('knittingApp')
     var ctrl = this;
     $scope.ctrl = ctrl;
 
-    this.patternImageSrc = 'images/spacedproper.png';
+    this.patternImageSrc = 'images/finalharoltheo.png';
 
     this.stitchesPerRow = 30;
     this.stitch = +localStorageService.get('stitch') || 0;
