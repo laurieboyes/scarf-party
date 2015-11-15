@@ -21,8 +21,8 @@ angular.module('knittingApp')
 
         $timeout(function () {
 
-
           patternContainer = element[0];
+          patternContainer.style.height = (scope.ctrl.getScreenHeight() / 4) + 'px';
           pattern = element.find('canvas');
           ctx = pattern[0].getContext("2d");
 
@@ -51,7 +51,7 @@ angular.module('knittingApp')
           };
           img.src = scope.ctrl.patternImageSrc;
 
-        }, 500);
+        });
 
         function setPatternScroll() {
           patternContainer.scrollTop = (canvasHeight - (stitchHeight * scope.ctrl.getRow())) - (stitchHeight * 6);
