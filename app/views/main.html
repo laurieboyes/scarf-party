@@ -4,16 +4,13 @@
 
 <div class="controls">
   <div class="control stitch">
-    <label><b>{{ctrl.isRightSide()? 'RS' : 'WS'}}</b> stitch</label>
+    <label>Stitch</label><span style="float: right;">{{ctrl.isRightSide()? 'RS' : 'WS'}}</span>
     <input type="number" ng-model="ctrl.stitch"/>
   </div>
-  <p>row: <b>{{ctrl.getRow()}}</b>     row-stitch: <b>{{ctrl.getRowStitch()}}</b></p>
+  <p>Row: <b>{{ctrl.getRow()}}</b> Row-stitch: <b>{{ctrl.getRowStitch()}}</b></p>
   <div class="control do-stitch">
-    <input type="button" value="Stitch" style="float: left; width:48%; height: 60px; font-weight: bold" ng-click="ctrl.nextStitch()"/>
-    <input type="button" value="St 6" style="float: left; width:48%; height: 60px; font-weight: bold" ng-click="ctrl.nextStitch(6)"/>
-  </div>
-  <div class="control undo-stitch">
-    <input type="button" value="Unpick" ng-click="ctrl.prevStitch()" style="margin-top: 10px; height: 60px; width: 130px; "/>
+    <input class="stitch-button" type="button" value="Unpick 6" ng-click="ctrl.prevStitch(6)"/>
+    <input class="stitch-button" type="button" value="Stitch 6" ng-click="ctrl.nextStitch(6)"/>
   </div>
 </div>
 

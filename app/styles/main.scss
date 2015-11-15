@@ -43,6 +43,13 @@ input {
   clear: both;
 }
 
+.stitch-button {
+  float: left;
+  width: 50%;
+  height: 60px;
+  font-weight: bold
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

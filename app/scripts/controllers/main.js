@@ -40,8 +40,8 @@ angular.module('knittingApp')
       return this.stitch = +this.stitch + (increase ? increase : 1);
     };
 
-    this.prevStitch = function () {
-      return this.stitch--;
+    this.prevStitch = function (decrease) {
+      return this.stitch = +this.stitch - (decrease ? decrease : 1);
     };
 
     this.getScreenHeight = function() {
